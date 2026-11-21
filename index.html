@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>《投資學》LLM Wiki — 個人增量知識庫與互動講義</title>
+  <style>
+    :root {
+      --bg-canvas: #E9E4D8;
+      --bg-card: #F4F0E6;
+      --bg-elevated: #F7F4EC;
+      --bg-subtle: #ECE7DB;
+      --primary: #223B58;
+      --primary-light: #2E4F73;
+      --accent-blue: #346094;
+      --accent-amber: #9A5B13;
+      --accent-amber-bg: #F3E8D2;
+      --accent-blue-bg: #E5ECF3;
+      --text-main: #343D46;
+      --text-heading: #1D2733;
+      --text-muted: #606B76;
+      --border: #D5CEBF;
+      --border-strong: #C4BCA9;
+      --shadow-md: 0 8px 28px rgba(34, 44, 56, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.68;
+      min-height: 100vh;
+      padding: 40px 20px 64px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      padding: 36px 40px;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #F4F0E6;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .cta-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid var(--primary);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .cta-info h2 {
+      font-size: 18px;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+
+    .cta-info p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #F4F0E6;
+      text-decoration: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.16s ease, transform 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 32px;
+      margin-bottom: 22px;
+    }
+
+    .section-card h3 {
+      font-size: 17px;
+      color: var(--primary);
+      font-weight: 800;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .chapter-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chapter-item {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+    }
+
+    .chapter-code {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      background: var(--accent-blue-bg);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .chapter-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 4px;
+    }
+
+    .chapter-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    @media (max-width: 720px) {
+      .hero { padding: 24px 20px; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .chapter-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <span class="badge">Investments LLM Wiki ｜ BKM Essentials of Investments</span>
+      <h1>《投資學》個人增量知識庫 ＆ 互動講義</h1>
+      <p class="subtitle">參考 Andrej Karpathy 的 LLM Wiki 概念建置，透過 8 節點 Graph 工作流自動編譯護眼暖紙圖文講義簡報。</p>
+
+      <div class="cta-box">
+        <div class="cta-info">
+          <h2>📘 Ch.07 CAPM 與多因子定價理論 — 總複習互動簡報</h2>
+          <p>共 12 頁｜含 Ch.05–06 前置公式複習、每頁獨立符號拆解表、KaTeX 公式、Mermaid 演進圖與連續講義／PDF 模式</p>
+        </div>
+        <a class="btn-primary" href="./slides/ch07-capm-and-apt.html">開啟 Ch.07 簡報 →</a>
+      </div>
+    </section>
+
+    <section class="stats-grid" aria-label="知識庫統計">
+      <div class="stat-card">
+        <div class="stat-num">6</div>
+        <div class="stat-label">已收錄章節 (Ch.05–10)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9</div>
+        <div class="stat-label">財務模型與定價理論頁</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9</div>
+        <div class="stat-label">核心概念與指標頁</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">跨章節深度比較頁</div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3>知識庫收錄章節總覽（wiki/）</h3>
+      <div class="chapter-list">
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.05</span>
+          <div class="chapter-name">風險與報酬 (Risk and Return)</div>
+          <div class="chapter-desc">HPR、算術與幾何平均、風險溢酬、夏普比率與資本配置線 (CAL)。</div>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.06</span>
+          <div class="chapter-name">效率多角化 (Efficient Diversification)</div>
+          <div class="chapter-desc">系統與非系統性風險、兩資產多角化、Markowitz 效率前緣與分離定理。</div>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.07</span>
+          <div class="chapter-name">CAPM 與多因子定價理論</div>
+          <div class="chapter-desc">CAPM (CML/SML/Beta/Alpha)、單因子指數模型、Fama-French 三因子與 APT。</div>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.08</span>
+          <div class="chapter-name">效率市場假說 (EMH)</div>
+          <div class="chapter-desc">隨機漫步、弱式／半強式／強式效率、事件研究法 (AR/CAR) 與四大異象。</div>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.09</span>
+          <div class="chapter-name">行為財務學與技術分析</div>
+          <div class="chapter-desc">非理性資訊處理、行為偏誤、展望理論、四大套利限制與技術分析連結。</div>
+        </div>
+        <div class="chapter-item">
+          <span class="chapter-code">Ch.10</span>
+          <div class="chapter-name">債券價格與殖利率</div>
+          <div class="chapter-desc">債券現值定價、價格—殖利率凸性、YTM/Current Yield/YTC 與信用利差。</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      架構憲法：<code>agents.md</code> ｜ 知識目錄：<code>wiki/index.md</code> ｜ 操作日誌：<code>wiki/log.md</code>
+    </footer>
+  </div>
+</body>
+</html>
